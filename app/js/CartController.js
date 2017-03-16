@@ -76,16 +76,13 @@ _CartController.prototype.purchaseItem = function () {
 };
 
 _CartController.prototype.postTheItem = function () {
-    console.log("another test")
-    console.log(typeof _self.basket);
-    console.log(typeof this.itemData);
-    console.log(JSON.stringify(this.basket))
-    console.log(JSON.stringify(this.itemData))
-
     let itemData = _self.itemData;
     let basket = _self.basket;
-    if (typeof basket.cart === undefined) {
+    if (basket.cart === undefined) {
         basket.cart = {};
+
+    }
+    if (basket.cart[itemData.id] == undefined) {
         basket.cart[itemData.id] = {
             quantity: 1,
             product: {
@@ -94,16 +91,7 @@ _CartController.prototype.postTheItem = function () {
                 price: itemData.price
             }
         }
-    } else if (basket.cart[itemData.id] == undefined) {
-        basket.cart[itemData.id] = {
-            quantity: 1,
-            product: {
-                name: itemData.name,
-                description: itemData.desc,
-                price: itemData.price
-            }
-        }
-    } else if (basket.cart[itemData.id] != undefined) {
+    } else {
         basket.cart[itemData.id].quantity += 1;
     }
 
@@ -118,7 +106,6 @@ _CartController.prototype.postTheItem = function () {
 };
 
 _CartController.prototype.listCartItems = function() {
-    console.log("test789")
     let table = $('#viewCart').find('table');
     table.find('tbody').empty();
     let data = _self.basket;
